@@ -1,2 +1,2 @@
-# Application-Timeline-Manager-Backend-ProjectX-GFG-KIIT
-Backend for the AI-Timeline-Manager project under the Project X team of GeekForGeeks KIIT. Using TypeScript, ExpressJS, MongoDB and Redis.
+# RTCT_BACKEND
+Rest and Socket backend for Realtime Collaboration Tool. Using ExpressJs, SocketIO, Prisma-ORM along with Redis and PostgreSQL and MongoDB integration. 
