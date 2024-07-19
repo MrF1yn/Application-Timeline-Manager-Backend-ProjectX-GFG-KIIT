@@ -5,7 +5,6 @@ import {createServer} from "node:http";
 import dotenv from "dotenv";
 import {PrismaClient} from '@prisma/client'
 import userRouter from "./users/users";
-import projectsRouter from "./projects/projects";
 import cors from "cors";
 
 
@@ -107,7 +106,6 @@ app.use(express.json({
 }));
 
 app.use("/users", userRouter);
-app.use("/projects", projectsRouter);
 
 app.get("/", (req: Request, res: Response) => {
     res.send("Express + TypeScript Server");
