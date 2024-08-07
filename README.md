@@ -1,2 +1,2 @@
-# RTCT_BACKEND
-Rest and Socket backend for Realtime Collaboration Tool. Using ExpressJs, SocketIO, Prisma-ORM along with Redis and PostgreSQL and MongoDB integration. 
+# Application-Timeline-Manager-Backend-ProjectX-GFG-KIIT
+Rest backend for Scraping data from devpost, hackerrank and hackerEarth. Using ExpressJs, Selenium, Prisma-ORM along with PostgreSQL. 
