@@ -1,5 +1,5 @@
 {
-  "name": "rtct_backend",
+  "name": "application_timeline_manager_backend",
   "version": "1.0.0",
   "description": "Rest backend for Application Timeline Manager. Using ExpressJs, SocketIO, Prisma-ORM along with Redis and PostgreSQL and MongoDB integration.",
   "main": "./src/index.ts",
@@ -22,8 +22,11 @@
   },
   "dependencies": {
     "@prisma/client": "^5.17.0",
+    "@types/cheerio": "^0.22.35",
+    "axios": "^1.7.3",
     "body-parser": "^1.20.2",
     "bufferutil": "^4.0.8",
+    "cheerio": "^1.0.0-rc.12",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "mongodb": "^6.7.0",

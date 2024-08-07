@@ -1,6 +1,7 @@
 import express, {NextFunction} from "express";
-import {prisma} from "../index";
-
+import {hackerRankScraper, prisma} from "../index";
+import axios from "axios";
+import * as cheerio from 'cheerio';
 
 const eventsRouter = express.Router();
 
@@ -8,8 +9,9 @@ const eventsRouter = express.Router();
 eventsRouter.get("/scrape/:link", async (req: any, res) => {
     const {link} = req.params;
     console.log(link);
-
-    res.status(200).send(link);
+    const scrapedData = await hackerRankScraper.scrapeEventPage(link);
+    console.log(scrapedData);
+    res.status(200).send(scrapedData);
 });
 
 

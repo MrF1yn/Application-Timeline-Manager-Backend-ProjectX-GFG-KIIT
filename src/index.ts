@@ -2,11 +2,13 @@
 
 import express, {Express, NextFunction, Request, Response} from "express";
 import {createServer} from "node:http";
+
 import dotenv from "dotenv";
 import {PrismaClient} from '@prisma/client'
 import cors from "cors";
 import {randomUUID} from "node:crypto";
 import eventsRouter from "./events/events";
+import {HackerRankScraper} from "./scrapers/HackerRankScraper";
 
 
 
@@ -21,6 +23,10 @@ const server = createServer(app);
 const port = process.env.PORT || 3000;
 const prisma = new PrismaClient();
 export {prisma};
+
+export const hackerRankScraper = new HackerRankScraper();
+
+
 
 export async function verifierMiddleware(req: any, res: any, next: NextFunction) {
     try {
@@ -64,7 +70,7 @@ app.use(express.json({
     limit: "5mb"
 }));
 
-app.use("/users", eventsRouter);
+app.use("/events", eventsRouter);
 
 app.get("/", (req: Request, res: Response) => {
     res.send("Express + TypeScript Server");
