@@ -10,9 +10,9 @@ export class HackerRankScraper extends Scraper {
 
     async scrapeEventPage(eventLink: string): Promise<EventData | null> {
         let type = 'challenge';
-        let eventName;
-        let startTime;
-        let endTime;
+        let eventName = '';
+        let startTime = "";
+        let endTime = "";
         if (eventLink.startsWith("https://www.hackerrank.com/contests")) {
             const eventName = eventLink.split("/")[4];
             eventLink = "https://www.hackerrank.com/" + eventName;
