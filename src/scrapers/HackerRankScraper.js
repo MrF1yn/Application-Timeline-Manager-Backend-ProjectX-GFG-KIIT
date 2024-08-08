@@ -1,4 +1,4 @@
-import {EventData, Scraper} from "./Scraper";
+import {EventData, Scraper} from "./Scraper.js";
 import axios from "axios";
 import cheerio from "cheerio";
 
@@ -8,7 +8,7 @@ export class HackerRankScraper extends Scraper {
         super('hackerrank');
     }
 
-    async scrapeEventPage(eventLink: string): Promise<EventData | null> {
+    async scrapeEventPage(eventLink){
         let type = 'challenge';
         let eventName = '';
         let startTime = "";
@@ -27,9 +27,6 @@ export class HackerRankScraper extends Scraper {
             });
             const $ = cheerio.load(response.data);
             console.log($.html());
-            switch (type) {
-
-            }
             switch (type){
                 case 'challenge':
                     eventName = $('h1[class=competition__name]').text();

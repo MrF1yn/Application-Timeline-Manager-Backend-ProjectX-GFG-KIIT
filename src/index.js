@@ -18,7 +18,7 @@ import {HackerRankScraper} from "./scrapers/HackerRankScraper";
 
 dotenv.config();
 
-const app: Express = express();
+const app = express();
 const server = createServer(app);
 const port = process.env.PORT || 3000;
 const prisma = new PrismaClient();
@@ -28,7 +28,7 @@ export const hackerRankScraper = new HackerRankScraper();
 
 
 
-export async function verifierMiddleware(req: any, res: any, next: NextFunction) {
+export async function verifierMiddleware(req, res, next) {
     try {
         const authHeader = req.headers.authorization;
         const token = authHeader && authHeader.split(' ')[1] || "";
@@ -72,7 +72,7 @@ app.use(express.json({
 
 app.use("/events", eventsRouter);
 
-app.get("/", (req: Request, res: Response) => {
+app.get("/", (req, res) => {
     res.send("Express + TypeScript Server");
 });
 
