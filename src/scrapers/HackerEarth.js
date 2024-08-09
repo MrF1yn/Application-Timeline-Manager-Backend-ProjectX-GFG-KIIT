@@ -12,30 +12,60 @@ export class HackerEarthScraper extends Scraper {
             const response = await axios.get(eventLink);
             if (response.status === 200) {
                 const $ = cheerio.load(response.data);
-                const hackathonsSection = $(".ongoing.challenge-list");
+
+                const ongoingHackathonsSection = $(".ongoing.challenge-list");
+                const upcomingHackathonsSection = $(".upcoming.challenge-list");
 
                 const events = [];
 
-                hackathonsSection.find('.challenge-card-modern').each((index, element) => {
-                    const eventName = $(element).find('.challenge-list-title').text().trim();
-                    const eventUrl = $(element).find('.challenge-card-wrapper').attr('href');
+                // Scrape Ongoing Challenges
+                ongoingHackathonsSection.find('.challenge-card-modern').each((index, element) => {
+                    const title = $(element).find('.challenge-list-title').text().trim();
+                    let link = $(element).find('.challenge-card-wrapper').attr('href');
                     const imageUrl = $(element).find('.event-image').css('background-image').replace(/url\(['"]?(.*?)['"]?\)/, '$1');
                     const companyName = $(element).find('.company-details').text().trim();
                     const registrations = $(element).find('.registrations').text().trim();
-                    const startDate = $(element).find('.start-time-block .regular.bold.desc.dark').text().trim();
-                    const endDate = $(element).find('.end-time-block .regular.bold.desc.dark').text().trim();
+                    const startTime = $(element).find('.start-time-block .regular.bold.desc.dark').text().trim();
+                    const endTime = $(element).find('.end-time-block .regular.bold.desc.dark').text().trim();
 
-                    const eventData = new EventData({
-                        eventName,
+                    if (link && !link.startsWith('http')) { 
+                        link = `https://assessment.hackerearth.com${link}`;
+                    }
+
+                    events.push(new EventData({
+                        title,
                         companyName,
                         registrations,
-                        startDate,
-                        endDate,
+                        startTime,
+                        endTime,
                         imageUrl,
-                        eventUrl: `${eventUrl}`,
-                    });
+                        link,
+                        status: "ongoing"
+                    }));
+                });
 
-                    events.push(eventData);
+                // Scrape Upcoming Challenges
+                upcomingHackathonsSection.find('.challenge-card-modern').each((index, element) => {
+                    const title = $(element).find('.challenge-list-title').text().trim();
+                    let link = $(element).find('.challenge-card-wrapper').attr('href');
+                    const imageUrl = $(element).find('.event-image').css('background-image').replace(/url\(['"]?(.*?)['"]?\)/, '$1');
+                    const companyName = $(element).find('.company-details').text().trim();
+                    const registrations = $(element).find('.registrations').text().trim();
+                    const startTime = $(element).find('.challenge-desc .date.dark').text().trim(); // Adjusted selector for start time
+
+                    if (link && !link.startsWith('http')) { 
+                        link = `https://assessment.hackerearth.com${link}`;
+                    }
+
+                    events.push(new EventData({
+                        title,
+                        companyName,
+                        registrations,
+                        startTime,
+                        imageUrl,
+                        link,
+                        status: "upcoming"
+                    }));
                 });
 
                 return events;
