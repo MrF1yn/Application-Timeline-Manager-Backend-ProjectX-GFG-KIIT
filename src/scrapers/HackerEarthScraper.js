@@ -1,6 +1,7 @@
 import axios from "axios";
 import cheerio from "cheerio";
-import { Scraper, EventData } from "./Scraper.js";
+import {Scraper} from "~/scrapers/Scraper";
+
 
 export class HackerEarthScraper extends Scraper {
     constructor() {
@@ -32,16 +33,16 @@ export class HackerEarthScraper extends Scraper {
                         link = `https://assessment.hackerearth.com${link}`;
                     }
 
-                    events.push(new EventData({
-                        title,
-                        companyName,
-                        registrations,
-                        startTime,
-                        endTime,
-                        imageUrl,
-                        link,
+                    events.push({
+                        eventName: title,
+                        companyName: companyName,
+                        registrations: registrations,
+                        startTime: startTime,
+                        endTime: endTime,
+                        imageUrl: imageUrl,
+                        link: link,
                         status: "ongoing"
-                    }));
+                    });
                 });
 
                 // Scrape Upcoming Challenges
@@ -57,15 +58,16 @@ export class HackerEarthScraper extends Scraper {
                         link = `https://assessment.hackerearth.com${link}`;
                     }
 
-                    events.push(new EventData({
-                        title,
-                        companyName,
-                        registrations,
-                        startTime,
-                        imageUrl,
-                        link,
+                    events.push({
+                        eventName: title,
+                        companyName: companyName,
+                        registrations: registrations,
+                        startTime: startTime,
+                        endTime: "",
+                        imageUrl: imageUrl,
+                        link: link,
                         status: "upcoming"
-                    }));
+                    });
                 });
 
                 return events;

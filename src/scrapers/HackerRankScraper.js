@@ -1,4 +1,4 @@
-import {EventData, Scraper} from "./Scraper.js";
+import {Scraper} from "./Scraper.js";
 import axios from "axios";
 import cheerio from "cheerio";
 
@@ -9,16 +9,11 @@ export class HackerRankScraper extends Scraper {
     }
 
     async scrapeEventPage(eventLink){
-        let type = 'challenge';
         let eventName = '';
         let startTime = "";
         let endTime = "";
-        if (eventLink.startsWith("https://www.hackerrank.com/contests")) {
-            const eventName = eventLink.split("/")[4];
-            eventLink = "https://www.hackerrank.com/" + eventName;
-            type = 'contest';
-        }
-
+        let link = "";
+        let activeEvents =[];
         try {
             const response = await axios.get(eventLink, {
                 headers: {
@@ -26,25 +21,19 @@ export class HackerRankScraper extends Scraper {
                 }
             });
             const $ = cheerio.load(response.data);
-            console.log($.html());
-            switch (type){
-                case 'challenge':
-                    eventName = $('h1[class=competition__name]').text();
-                    startTime = $('span[data-automation=test-start-time]').text();
-                    endTime = $('span[data-automation=test-end-time]').text();
-                    break;
-                case 'contest':
-                    eventName = $('h1[class=competition__name]').text();
-                    startTime = $('span[data-automation=test-start-time]').text();
-                    endTime = $('span[data-automation=test-end-time]').text();
-                    break;
-            }
-            return {
-                eventName: eventName,
-                startDate: startTime,
-                endDate: endTime,
-                eventUrl: eventLink
-            };
+            // console.log($.html());
+            $('.active-contest-container ul').toArray().forEach(elem=>{
+                eventName = $(elem).find('.contest-item-title').text();
+                startTime = $(elem).find('.contest-status').text();
+                link = "https://www.hackerrank.com"+$(elem).find('a').attr('href');
+                activeEvents.push({
+                    eventName: eventName,
+                    startTime: startTime,
+                    endTime: endTime,
+                    link: link
+                })
+            });
+            return activeEvents;
         } catch (error) {
             console.error(error);
             return null;

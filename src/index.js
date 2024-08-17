@@ -9,6 +9,8 @@ import cors from "cors";
 import {randomUUID} from "node:crypto";
 import eventsRouter from "./events/events";
 import {HackerRankScraper} from "./scrapers/HackerRankScraper";
+import {HackerEarthScraper} from "~/scrapers/HackerEarthScraper";
+import {DevpostScraper} from "~/scrapers/DevpostScraper";
 
 
 
@@ -25,6 +27,8 @@ const prisma = new PrismaClient();
 export {prisma};
 
 export const hackerRankScraper = new HackerRankScraper();
+export const hackerEarthScraper = new HackerEarthScraper();
+export const devpostScraper = new DevpostScraper();
 
 
 
